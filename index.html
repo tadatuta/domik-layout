@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        .page {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            height: 100%;
+
+            transition-property: height;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 400ms;
+        }
+
+        .header {
+            height: 50px;
+            background: grey;
+        }
+
+        .main {
+            text-align: center;
+        }
+
+        .main div {
+            margin-bottom: 16px;
+        }
+
+        input {
+            font-size: 24px;
+        }
+
+        .footer {
+            height: 50px;
+            background: grey;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <div class="header">header</div>
+        <div class="main">
+            <div><input placeholder="login"></div>
+            <div><input type="password" placeholder="password"></div>
+            <input type="submit" value="Войти">
+        </div>
+        <div class="footer">footer</div>
+    </div>
+    <script>
+        const approximateKeyboardHeight = 256;
+        const page = document.querySelector('.page');
+        let pageHeight = page.getBoundingClientRect().height;
+        const onResize = () => {
+            requestAnimationFrame(() => {
+                page.style.height = visualViewport.height + 'px';
+            });
+        };
+
+        visualViewport.addEventListener('resize', onResize);
+
+        document.querySelectorAll('input').forEach(i => {
+            i.addEventListener('blur', e => {
+                pageHeight += approximateKeyboardHeight;
+                page.style.height = pageHeight + 'px';
+            });
+
+            i.addEventListener('focus', e => {
+                e.target.style.opacity = 0;
+                setTimeout(() => {
+                    e.target.style.opacity = 1;
+                }, 10);
+                pageHeight -= approximateKeyboardHeight;
+                page.style.height = pageHeight + 'px';
+            });
+        });
+
+    </script>
+</body>
+
+</html>
